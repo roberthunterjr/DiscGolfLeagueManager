@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes.js')
 const app = express();
 
-// Connect to DB
+// Connect to Mongoose
 mongoose.connect(process.env.DB_HOST, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
