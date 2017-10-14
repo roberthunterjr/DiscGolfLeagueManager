@@ -5,15 +5,10 @@ const mongoose = require('mongoose');
 const routes = require('./routes.js');
 const app = express();
 
-<<<<<<< HEAD
-// Connect to Mongoose
-mongoose.connect(process.env.DB_HOST, { useMongoClient: true });
-=======
 
 // Connect to DB
 const migrate = require('../db/migrate.js');
 mongoose.connect(process.env.DB_URI, { useMongoClient: true });
->>>>>>> Model Schemas created. DB Connected
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 
