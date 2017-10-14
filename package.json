@@ -5,13 +5,9 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
-<<<<<<< HEAD
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
-=======
-    "express": "^4.16.2",
->>>>>>> My server changes
     "mongodb": "^2.2.33",
     "mongoose": "^4.12.1",
     "nodemon": "^1.12.1",
@@ -20,13 +16,7 @@
     "react-scripts": "1.0.14"
   },
   "scripts": {
-<<<<<<< HEAD
     "start": "cd server && nodemon index.js",
-=======
-    "start": "concurrently \"react-scripts start\" \"nodemon server/server.js\"",
-    "local": "react-scripts start",
-    "server": "nodemon server/server.js",
->>>>>>> My server changes
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
