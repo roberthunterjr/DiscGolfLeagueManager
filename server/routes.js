@@ -22,9 +22,10 @@ router.get('/getPlayers', (req, res) => {
     });
 });
 
-router.get('/addPlayer', (req, res) => {
+router.post('/addPlayer', (req, res) => {
   console.log('Request body is here', req.body.player);
-  helpers.addPlayer({first_name: 'John', email: 'john@example.com', password: 'HashMe'})
+  // helpers.addPlayer({first_name: 'John', email: 'john@example.com', password: 'HashMe'})
+  helpers.addPlayer(req.body)
     .then((player) =>{
       res.send('added\n' + player);
     })
