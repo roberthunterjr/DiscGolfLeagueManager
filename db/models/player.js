@@ -27,12 +27,4 @@ playerSchema.methods.hashPw = function(raw) {
   });
 };
 
-playerSchema.methods.checkPw = function(raw) {
-  console.log('this is this ', this);
-  // return new Promise(function(resolve, reject) {
-  //   bcrypt.compare(raw, this.)
-  //   resolve();
-  //   reject();
-  // });
-}
 module.exports = mongoose.model('player', playerSchema);

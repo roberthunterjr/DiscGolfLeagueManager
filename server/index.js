@@ -18,9 +18,9 @@ db.once('open', function() {
   console.log('connection open successfully');
 });
 
-//Migration (dev purposes only)
-migrate.down();
-migrate.up();
+// Migration (dev purposes only)
+// migrate.down();
+// migrate.up();
 
 
 // Middleware

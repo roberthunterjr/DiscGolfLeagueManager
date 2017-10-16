@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const helpers = require('./helpers.js');
+const jwt = require('jsonwebtoken');
 /////////////////////////////////////////////////////////////////////
 // Routes
 /////////////////////////////////////////////////////////////////////
@@ -23,7 +24,7 @@ router.get('/getPlayers', (req, res) => {
 
 router.get('/addPlayer', (req, res) => {
   console.log('Request body is here', req.body.player);
-  helpers.addPlayer({first_name: 'John', password: 'HashMe'})
+  helpers.addPlayer({first_name: 'John', email: 'john@example.com', password: 'HashMe'})
     .then((player) =>{
       res.send('added\n' + player);
     })
@@ -33,9 +34,34 @@ router.get('/addPlayer', (req, res) => {
     })
 });
 
+router.get('/login', (req, res) => {
+  console.log('Beginning the login process', req.body.player);
+  helpers.login({email: 'john@example.com', password: 'HashMe'})
+    .then((player) => {
+      // console.log('Player made it back to route as ',player);
+      player.apiToken = jwt.sign(
+        { isLoggedIn: true, userId: player._id},
+        'dgolf',
+        {expiresIn: 180 }
+      );
+      res.send(player);
+      //if user is defined, assign a token with user id encoded
+      //then send it in the response.
+      //else, indicate that there is an issue and redirect
+    })
+    .catch((err) => {
+      console.log('Something went wrong', err);
+      //something went wrong
+    })
+})
+
 /////////////////
 //Club Routes////
 ////////////////
+
+router.get('/addClub', (req, res) =>{
+  res.send('Hello');
+});
 
 
 

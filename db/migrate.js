@@ -16,7 +16,7 @@ const testPlayers = [
     first_name: 'Robert',
     last_name: 'Hunter',
     email: 'robert@example.com',
-    password: 'nothashed'
+    password: '1234'
   },
   {
     first_name: 'Tristyn',
@@ -41,7 +41,15 @@ module.exports.up = function() {
   //add players
   testPlayers.forEach((player) => {
     // console.log('iterating through testPlayers', player);
-    let tempPlayer = new Models.Player(player).save()
+    let tempPlayer = new Models.Player(player);
+    tempPlayer.hashPw()
+      .then((hash)=> {
+        tempPlayer.password = hash;
+        return tempPlayer;
+      })
+      .then((tempPlayer) => {
+        return tempPlayer.save();
+      })
       .then((result) =>{
         // console.log('Models saved, this is ',result);
       })

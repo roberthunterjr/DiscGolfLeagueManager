@@ -16,4 +16,41 @@ module.exports.addPlayer = function(player) {
     .catch((err) =>{
       console.log('err adding user with hashed pw', err);
     });
+};
+
+module.exports.login = function(credentials) {
+  //check to see if there is a user with the email
+  return Models.Player.find({email: credentials.email}).select({}).exec()
+    .then((user)=> {
+      //make sure there are results
+      return new Promise(function(resolve, reject) {
+        if(user.length === 0 ) {
+          reject('No user found');
+        }
+        let hashed = user[0].password;
+        return bcrypt.compare(credentials.password, hashed, function(err, result) {
+          // console.log('the result is ', result);
+          if(result) {
+            delete user.password;
+            resolve(user[0]);
+          } else {
+            reject('Invalid information provided sir');
+          }
+        });
+      });
+    });
+}
+
+/*
+When adding a club we are expecting this to occur only in tandum with
+a recent user signup or from the panel of an already authenticated user.
+In either case, a single player Id should be provided to be pushed into admin [].
+Additionally, this will be set to update if the club already exists in the db
+club = {name: "String", id: Player_id}
+*/
+
+module.exports.addClub = function(club) {
+  //parse into allcaps, no space search
+  //let nameSearch = club.name.split('').join('').toUpperCase();
+  // return Models.Club.find({first_name: club.first_name})
 }
