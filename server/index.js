@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes.js');
 const app = express();
+const session = require('express-session');
 
 
 // Connect to DB
@@ -15,15 +16,22 @@ var db = mongoose.connection;
 db.on('error', console.log.bind(console,'(*(*(*(*(*Error connecting'));
 db.once('open', function() {
   console.log('connection open successfully');
-  //Migration (dev purposes only)
-  migrate.up();
-  // migrate.down();
 });
+
+//Migration (dev purposes only)
+migrate.down();
+migrate.up();
 
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({
+  secret: 'D-Boyz',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: true}
+}));
 
 // Require API Routes
 app.use('/api', routes);

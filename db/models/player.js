@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 const playerSchema = new mongoose.Schema({
@@ -14,4 +15,24 @@ const playerSchema = new mongoose.Schema({
   isAdmin: Boolean
 });
 
+playerSchema.methods.hashPw = function(raw) {
+  return new Promise(function(resolve, reject) {
+    bcrypt.hash(raw, null, null, (err, hash) => {
+      if(!err){
+        resolve(hash);
+      } else {
+        reject(err);
+      }
+    });
+  });
+};
+
+playerSchema.methods.checkPw = function(raw) {
+  console.log('this is this ', this);
+  // return new Promise(function(resolve, reject) {
+  //   bcrypt.compare(raw, this.)
+  //   resolve();
+  //   reject();
+  // });
+}
 module.exports = mongoose.model('player', playerSchema);

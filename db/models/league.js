@@ -2,9 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const leagueSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
+  // _id: Schema.Types.ObjectId,
   name: String,
-  year: Date,
+  year: Number,
   club: {type: Schema.Types.ObjectId, ref: 'club'},
 });
 
