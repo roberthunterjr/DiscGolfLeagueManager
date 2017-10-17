@@ -36,4 +36,15 @@ router.post('/login', (req, res) => {
     })
 });
 
+router.post('/addScores', (req, res) => {
+  console.log('Beginning the login process' , req.body);
+  helpers.addScores(req.body)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch((err) =>{
+      res.status(402).send(err);
+    });
+})
+
 module.exports = router;
