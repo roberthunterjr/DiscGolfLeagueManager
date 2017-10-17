@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes.js');
+const openRoutes = require('./openRoutes.js');
 const app = express();
 const session = require('express-session');
 
@@ -32,6 +33,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: {secure: true}
 }));
+
+// Non-protected routes
+app.use('/', openRoutes);
 
 // Require API Routes
 app.use('/api', routes);
