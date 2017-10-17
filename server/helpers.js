@@ -7,6 +7,9 @@ module.exports.getPlayers = function() {
   return Models.Player.find().select({first_name: 1}).exec();
 };
 
+module.exports.getPlayer = function(userid) {
+  return Models.Player.findById(userid).exec();
+}
 module.exports.addPlayer = function(player) {
   let tempPlayer = new Models.Player(player);
   return tempPlayer.hashPw(player.password)
@@ -27,7 +30,7 @@ module.exports.addPlayer = function(player) {
         },
         'dgolf',
         {
-          expiresIn: 180
+          expiresIn: 99999*99999
         });
       payload.player = player;
       payload.token = apiToken;
@@ -69,7 +72,7 @@ module.exports.login = function(credentials) {
         },
         'dgolf',
         {
-          expiresIn: 180
+          expiresIn: 99999*99999
         }
       );
       return(payload);
@@ -87,6 +90,22 @@ module.exports.getAuth = function(key) {
       }
     });
   });
+}
+
+module.exports.addScores = function(playerScores) {
+  let hole = playerScores.hole;
+  let scoreStats = playerScores.player_score.map((playerScoreTuple) => {
+    return new Models.HoleStat({
+      player: (Object.keys(playerScoreTuple))[0],
+      number_strokes: playerScoreTuple[Object.keys(playerScoreTuple)[0]]
+    }).save();
+  });
+  return Promise.all(scoreStats);
+  // return new Promise(function(resolve, reject) {
+  //   scoreStats.forEach((scoreModel) => {
+  //     return scoreModel.save();
+  //   });
+  // });
 }
 /*
 When adding a club we are expecting this to occur only in tandum with

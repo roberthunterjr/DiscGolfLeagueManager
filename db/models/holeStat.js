@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 const sObject = Schema.Types.ObjectId;
 const holeStatSchema = new mongoose.Schema({
-  _id: sObject,
+  // _id: sObject,
   league: {type: sObject, },
   player: {type: sObject, ref: 'player'},
   course: {type: sObject, ref: 'course'},
