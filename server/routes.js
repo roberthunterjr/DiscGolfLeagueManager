@@ -23,11 +23,11 @@ router.get('/getPlayers', (req, res) => {
 });
 
 router.post('/addPlayer', (req, res) => {
-  console.log('Request body is here', req.body.player);
+  console.log('Request body is here', req.body);
   // helpers.addPlayer({first_name: 'John', email: 'john@example.com', password: 'HashMe'})
   helpers.addPlayer(req.body)
-    .then((player) =>{
-      res.send('added\n' + player);
+    .then((payload) =>{
+      res.send(payload);
     })
     .catch((err)=>{
       console.log('error found here', err);
@@ -35,27 +35,35 @@ router.post('/addPlayer', (req, res) => {
     })
 });
 
-router.get('/login', (req, res) => {
-  console.log('Beginning the login process', req.body.player);
-  helpers.login({email: 'john@example.com', password: 'HashMe'})
-    .then((player) => {
-      // console.log('Player made it back to route as ',player);
-      player.apiToken = jwt.sign(
-        { isLoggedIn: true, userId: player._id},
-        'dgolf',
-        {expiresIn: 180 }
-      );
-      res.send(player);
+router.post('/login', (req, res) => {
+  console.log('Beginning the login process', req.body);
+  helpers.login(req.body)
+    .then((payload) => {
       //if user is defined, assign a token with user id encoded
       //then send it in the response.
       //else, indicate that there is an issue and redirect
+      res.send(payload);
     })
     .catch((err) => {
-      console.log('Something went wrong', err);
+      console.log('Something went wrong logging in', err);
+      res.status(402).send(err);
       //something went wrong
     })
 })
 
+/////////////////
+///Authorize////
+
+router.get('/getAuth', (req, res) => {
+  helpers.getAuth(req.headers.key)
+    .then((obj) => {
+      console.log(obj);
+      res.status(400).send('Authorized');
+    })
+    .catch((bool) => {
+      res.status(403).send('Not authorized');
+    })
+})
 /////////////////
 //Club Routes////
 ////////////////

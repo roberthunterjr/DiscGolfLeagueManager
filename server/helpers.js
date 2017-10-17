@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const Models = require('../db/models.js');
+const jwt = require('jsonwebtoken');
 
 module.exports.getPlayers = function() {
   return Models.Player.find().select({first_name: 1}).exec();
@@ -12,6 +13,25 @@ module.exports.addPlayer = function(player) {
     .then((hashedPw) =>{
       tempPlayer.password = hashedPw;
       return tempPlayer.save({player})
+    })
+    .then((player) => {
+      //try filtering pw
+      return player;
+    })
+    .then((player) => {
+      let payload = {};
+      let apiToken = jwt
+        .sign({
+          isLoggedIn: true,
+          userId: player._id
+        },
+        'dgolf',
+        {
+          expiresIn: 180
+        });
+      payload.player = player;
+      payload.token = apiToken;
+      return payload;
     })
     .catch((err) =>{
       console.log('err adding user with hashed pw', err);
@@ -38,9 +58,36 @@ module.exports.login = function(credentials) {
           }
         });
       });
+    })
+    .then((player) => {
+      payload = {};
+      payload.player = player;
+      payload.token = jwt
+      .sign({
+        isLoggedIn: true,
+        userId: player._id
+        },
+        'dgolf',
+        {
+          expiresIn: 180
+        }
+      );
+      return(payload);
     });
 }
 
+module.exports.getAuth = function(key) {
+  return new Promise(function(resolve, reject) {
+    jwt.verify(key, 'dgolf', function(err, decoded) {
+      console.log(decoded);
+      if(!err){
+        resolve(decoded);
+      } else {
+        reject(false);
+      }
+    });
+  });
+}
 /*
 When adding a club we are expecting this to occur only in tandum with
 a recent user signup or from the panel of an already authenticated user.
