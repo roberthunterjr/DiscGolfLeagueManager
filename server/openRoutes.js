@@ -45,6 +45,17 @@ router.post('/addScores', (req, res) => {
     .catch((err) =>{
       res.status(402).send(err);
     });
+});
+
+router.get('/getPlayer/:id', (req, res) => {
+  console.log('Beginning the getPlayer call', req.params.id);
+  helpers.getPlayer(req.params.id)
+  .then((player) => {
+    res.send(player)
+  })
+  .catch((err) => {
+    res.status(402).send(err);
+  });
 })
 
 module.exports = router;

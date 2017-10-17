@@ -7,6 +7,9 @@ module.exports.getPlayers = function() {
   return Models.Player.find().select({first_name: 1}).exec();
 };
 
+module.exports.getPlayer = function(userid) {
+  return Models.Player.findById(userid).exec();
+}
 module.exports.addPlayer = function(player) {
   let tempPlayer = new Models.Player(player);
   return tempPlayer.hashPw(player.password)
