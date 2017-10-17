@@ -13,10 +13,12 @@ router.get('/test', (req, res) => {
 router.use((req, res, next) => {
   helpers.getAuth(req.headers.key)
     .then((obj) => {
-      next()
+      console.log(obj);
+      req.body.userId = obj.userId;
+      next();
     })
     .catch((err) => {
-      console.log('Authorization err');
+      console.log('Authorization err ', err);
       res.status(403).send('Authorization Error');
     });
 });
