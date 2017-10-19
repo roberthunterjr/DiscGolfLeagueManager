@@ -1,0 +1,91 @@
+//////////////////////////////////////////////////
+// Club
+//////////////////////////////////////////////////
+{
+  seasons: [
+    {
+      id: 0,
+      name: 'Fall 2017',
+      players: ['REFS to Player ids'],
+      courses: ['REFS to Course ids'],
+      standings: {
+        // TODO
+      },
+      results: [
+        {
+          roundNumber: 1,
+          completed: false,
+          course: 'REF to Course._id',
+          date: Date,
+          players: ['REFS to Player ids'],
+          cards: [
+            {
+              id: 0,
+              startingHole: 5,
+              holesCompleted: 8,
+              players: ['REFS to Player ids'],
+              scoreKeeper: 'REF to player id'
+            }
+          ],
+          scores: {
+            player_id: {
+              id: 0,
+              player_id: 'REF to player id',
+              season_id: 'REF to season id', // ? can we have a reference to something inside the club document?
+              division: 'pro',
+              card_id: 'REF to card id',
+              course_id: 'REF to course id',
+              date: Date,
+              totalStrokes: 58,
+              scoreRelativeToPar: 4,
+              holes: {
+                1: 3,
+                2: 4,
+                3: 3,
+                4: 2,
+                //...etc
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+//////////////////////////////////////////////////
+// Player
+//////////////////////////////////////////////////
+{
+  id: 0,
+  firstName: 'Pete',
+  lastName: 'Givens',
+  email: 'pgivens@gmail.com',
+  password: *hashed*,
+  avatarUrl: 'www.msn.com/kittens.png',
+  clubs: ['REFS to club ids'],
+  rounds: ['REFS to scores objects'],
+  currentCard: 'REF to card id'
+}
+
+//////////////////////////////////////////////////
+// Course
+//////////////////////////////////////////////////
+{
+  name: 'Pease Park',
+  location: 'Austin, TX',
+  numberOfHoles: 18,
+  length: 6280,
+  par: 58,
+  holeDetails: {
+    1: {
+      par: 3,
+      length: 380
+    },
+    2: {
+      par: 4,
+      length: 450
+    },
+    //...etc
+  }
+
+}
