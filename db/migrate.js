@@ -36,7 +36,7 @@ const testClubs= [
     players: [ObjectId("59e8d43b207db106c94f1e46"), ObjectId("59e8d394207db106c94f1e43")]
   },
   {
-    name: 'XYZ Golf Club'
+    name: 'XYZ Golf Club',
     admins: [ObjectId("59e8d394207db106c94f1e43")],
     players: [ObjectId("59e8d43b207db106c94f1e46"), ObjectId("59e8d394207db106c94f1e43")]
   }
@@ -61,7 +61,7 @@ const testCourse= [
       3: {
         par: 3,
         length: 444
-      }
+      },
       4: {
         par: 3,
         length: 378
