@@ -8,6 +8,41 @@ const testClubs= [
   },
   {
     name: 'XYZ Golf Club'
+  },
+
+];
+
+const testCourse= [
+  {
+    name: 'Pease Park',
+    location: 'Austin, Tx',
+    hole_number: 18,
+    par: 58,
+    hole_details: {
+      1: {
+        par: 3,
+        length: 380
+      },
+      2: {
+        par: 4,
+        length: 150
+      },
+      3: {
+        par: 5,
+        length: 450
+      }
+    }
+  }
+];
+
+const testSeasons = [
+  {
+    name: 'Spring 2018',
+    year: 2018,
+  },
+  {
+    name: 'Summer 2017',
+    year: 2017,
   }
 ];
 
@@ -26,37 +61,8 @@ const testPlayers = [
   }
 ];
 
-const testLeagues = [
-  {
-    name: 'Spring 2018',
-    year: 2018,
-  },
-  {
-    name: 'Summer 2017',
-    year: 2017,
-  }
-]
 
 module.exports.up = function() {
-  //add players
-  testPlayers.forEach((player) => {
-    // console.log('iterating through testPlayers', player);
-    let tempPlayer = new Models.Player(player);
-    tempPlayer.hashPw()
-      .then((hash)=> {
-        tempPlayer.password = hash;
-        return tempPlayer;
-      })
-      .then((tempPlayer) => {
-        return tempPlayer.save();
-      })
-      .then((result) =>{
-        // console.log('Models saved, this is ',result);
-      })
-      .catch((err) =>{
-        console.log('Error adding to DB ', err);
-      })
-  });
 
   //add clubs
   testClubs.forEach((club) => {
@@ -69,20 +75,39 @@ module.exports.up = function() {
       });
   });
 
-  //add leagues
-  testLeagues.forEach((league) => {
-    let tempLeague = new Models.League(league).save()
+  //add seasons
+  testSeasons.forEach((seasons) => {
+    let tempSeason = new Models.Season(seasons).save()
       .then((result) => {
-        //console.log('League models saved');
+        //console.log('Season models saved');
       })
       .catch((err) => {
-        console.log('Err adding test league to db', err);
+        console.log('Err adding test seasons to db', err);
       });
+  });
+  //add players
+  testPlayers.forEach((player) => {
+    // console.log('iterating through testPlayers', player);
+    let tempPlayer = new Models.Player(player);
+    tempPlayer.hashPw()
+    .then((hash)=> {
+      tempPlayer.password = hash;
+      return tempPlayer;
+    })
+    .then((tempPlayer) => {
+      return tempPlayer.save();
+    })
+    .then((result) =>{
+      // console.log('Models saved, this is ',result);
+    })
+    .catch((err) =>{
+      console.log('Error adding to DB ', err);
+    })
   });
 }
 
 module.exports.down = function() {
   Models.Player.collection.drop();
   Models.Club.collection.drop();
-  Models.League.collection.drop();
+  Models.Season.collection.drop();
 }

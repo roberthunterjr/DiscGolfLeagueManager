@@ -7,12 +7,14 @@ const playerSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
   clubs: [{type: Schema.Types.ObjectId, ref: 'club'}],
-  leagues: [{type: Schema.Types.ObjectId, ref: 'league'}],
+  seasons: [{type: Schema.Types.ObjectId, ref: 'season'}],
+  player_rounds: [{type: Schema.Types.ObjectId, ref: 'player_round_score'}],
   created: {type: Date, default: Date.now()},
   email: String,
   password: String,
   isOwner: Boolean,
-  isAdmin: Boolean
+  isAdmin: Boolean,
+  avatarUrl: String
 });
 
 playerSchema.methods.hashPw = function(raw) {
