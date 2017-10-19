@@ -32,12 +32,12 @@ const testPlayers = [
 const testClubs= [
   {
     name: 'ATX Disc Golf',
-    admins: [ObjectId("59e8d43b207db106c94f1e46")]
+    admins: [ObjectId("59e8d43b207db106c94f1e46")],
     players: [ObjectId("59e8d43b207db106c94f1e46"), ObjectId("59e8d394207db106c94f1e43")]
   },
   {
     name: 'XYZ Golf Club'
-    admins: [ObjectId("59e8d394207db106c94f1e43")]
+    admins: [ObjectId("59e8d394207db106c94f1e43")],
     players: [ObjectId("59e8d43b207db106c94f1e46"), ObjectId("59e8d394207db106c94f1e43")]
   }
 ];
