@@ -3,13 +3,14 @@ var Schema = mongoose.Schema;
 
 const sObject = Schema.Types.ObjectId;
 const roundSchema = new mongoose.Schema({
-  _id: Schema.Types.ObjectId,
-  player: {type: sObject, ref: 'player'},
-  tournament: {type: sObject, ref: 'tournament'},
+  round_number: Number,
+  players: [{type: sObject, ref: 'player'}],
+  completed: Boolean,
   course: {type: sObject, ref: 'course'},
-  league: {type: sObject, ref: 'league'},
-  total_strokes: Number,
   date: Date,
+  scores: [{type: sObject, ref: 'player_round_score'}],
+  season: {type: sObject, ref: 'season'},
+  total_strokes: Number,
   game: {type: sObject, ref: 'game'},
   player_tag: String
 });
