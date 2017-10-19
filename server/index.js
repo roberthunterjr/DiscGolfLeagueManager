@@ -9,7 +9,7 @@ const session = require('express-session');
 
 
 // Connect to DB
-const migrate = require('../db/migrate.js');
+// const migrate = require('../db/migrate.js');
 mongoose.connect(process.env.DB_URI, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
