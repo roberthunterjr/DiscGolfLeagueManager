@@ -139,7 +139,7 @@ const testSeasons = [
     year: 2017,
     club: ObjectId("59e523d8f1c9be860ec795b2"),
     players: [ObjectId("59e8d43b207db106c94f1e46")],
-    courses: [ObjectId("59e523d8f1c9be860ec795b2")]
+    courses: [ObjectId("59e523d8f1c9be860ec795b2")],
   }
 ];
 
