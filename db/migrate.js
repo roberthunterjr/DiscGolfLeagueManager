@@ -163,28 +163,28 @@ given test arrays
 
   Promise.all(testPlayerModels)
     .then((players) => {
-      console.log('nmnmnmnmnmn',players);
+      // console.log('nmnmnmnmnmn',players);
       return Promise.all(testClubModels);
     })
     .then((clubs) => {
-      console.log(clubs);
+      // console.log(clubs);
       return Promise.all(testSeasonModels);
     })
     .then((seasons) => {
-      console.log(seasons);
+      // console.log(seasons);
       return Promise.all(testRoundModels);
     })
     .then((rounds) => {
-      console.log(rounds);
+      // console.log(rounds);
       return Promise.all(testCourseModels)
     })
     .then((courses) =>{
-      console.log(courses);
+      // console.log(courses);
       return courses;
     })
     .then((courses) => {
-      console.log(playerIds);
-      console.log(roundIds);
+      // console.log(playerIds);
+      // console.log(roundIds);
       return wireClub();
     })
     .then(() => {
@@ -210,7 +210,7 @@ Assuming course[0] is the only course (although wired for more)
 */
 
 var wireClub = function() {
-  console.log('Wire Club');
+  // console.log('Wire Club');
   return Models.Club.findOne({_id: clubIds[0]}).exec()
     .then((club) => {
       seasonIds.forEach((seasonId) => {
@@ -220,13 +220,13 @@ var wireClub = function() {
       return club.save()
     })
     .then((updatedClub) => {
-      console.log(updatedClub);
+      // console.log(updatedClub);
       return updatedClub;
     })
 };
 
 var wireSeasons = function() {
-  console.log('Wire Seasons');
+  // console.log('Wire Seasons');
   return Models.Season.findOne({_id: seasonIds[0]}).exec()
     .then((season) => {
       roundIds.forEach((roundId) =>{
@@ -240,7 +240,7 @@ var wireSeasons = function() {
       return season.save();
     })
     .then((updatedSeasons) => {
-      console.log(updatedSeasons);
+      // console.log(updatedSeasons);
       return updatedSeasons;
     });
 }

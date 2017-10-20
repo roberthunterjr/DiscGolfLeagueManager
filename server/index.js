@@ -27,7 +27,7 @@ db.once('open', function() {
 //   .catch(() => {
 //     console.log('error with migration')
 //   })
-  migrate.up();
+  // migrate.up(); 
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
