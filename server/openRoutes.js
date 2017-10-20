@@ -56,6 +56,17 @@ router.get('/getPlayer/:id', (req, res) => {
   .catch((err) => {
     res.status(402).send(err);
   });
+});
+
+router.get('/getSeasonsByPlayer/:id', (req, res) => {
+  console.log('Beginning the getSeasonsByPlayer call', req.params.id);
+  helpers.getSeasonsByPlayer(req.params.id)
+    .then((payload) =>{
+      res.send(payload)
+    })
+    .catch((err) => {
+      res.status(401).send(err);
+    });
 })
 
 module.exports = router;

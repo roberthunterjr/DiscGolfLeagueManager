@@ -9,7 +9,7 @@ const session = require('express-session');
 
 
 // Connect to DB
-// const migrate = require('../db/migrate.js');
+const migrate = require('../db/migrate.js');
 mongoose.connect(process.env.DB_URI, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -20,9 +20,14 @@ db.once('open', function() {
 });
 
 // Migration (dev purposes only)
-// migrate.down();
-// migrate.up();
-
+// migrate.down()
+//   .then(() => {
+//     migrate.up();
+//   })
+//   .catch(() => {
+//     console.log('error with migration')
+//   })
+  migrate.up();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));

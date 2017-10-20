@@ -107,6 +107,29 @@ module.exports.addScores = function(playerScores) {
   //   });
   // });
 }
+
+module.exports.getSeasonsByPlayer = function(playerId) {
+  //first find the club they belong to, then populate every season field
+  return Models.Player.findOne({_id: playerId})
+    .populate({
+      path: 'seasons',
+      populate: {
+        path: 'courses',
+      },
+      populate: {
+        path: 'players'
+      },
+      populate: {
+        path: 'rounds'
+      }
+    })
+    .exec()
+    .then((seasons) => {
+      console.log('What do we have heree\n',seasons);
+      return seasons;
+    })
+  // return Models.Season.find(club)
+}
 /*
 When adding a club we are expecting this to occur only in tandum with
 a recent user signup or from the panel of an already authenticated user.
