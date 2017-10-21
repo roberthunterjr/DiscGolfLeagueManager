@@ -11,15 +11,73 @@ module.exports.getPlayer = function(userid) {
   return Models.Player.findById(userid).exec();
 }
 module.exports.addPlayer = function(player) {
+  // let tempPlayer = new Models.Player(player);
+  // return tempPlayer
+  //   .hashPw(player.password)
+  //   .then((hashedPw) => {
+  //     tempPlayer.password = hashedPw
+  //     return tempPlayer.save()
+  //   })
+  //   .then((savedPlayer) => {
+  //     return Models.Season.findOne({name: 'Fall 2017'})
+  //       .then((season) => {
+  //         season.players.push(savedPlayer._id)
+  //         return season.save()
+  //           .then((savedSeason) => {
+  //             return { player: savedPlayer, season: savedSeason }
+  //           })
+  //       })
+  //   })
+  //   .then(({ player, season }) => {
+  //     return Models.Round.find({}).exec()
+  //       .then((rounds) => {
+  //         return Promise.all(rounds.map((round) => {
+  //           return round.season.push(season._id).save();
+  //         }))
+  //       })
+  //   })
+
   let tempPlayer = new Models.Player(player);
   return tempPlayer.hashPw(player.password)
     .then((hashedPw) =>{
       tempPlayer.password = hashedPw;
-      return tempPlayer.save({player})
+      var updates = {};
+      updates.season = Models.Season.findOne({}).exec();
+      updates.player = tempPlayer.save();
+      updates.round = Models.Round.find({});
+      return Promise.all([updates.season,updates.player, updates.round])
     })
-    .then((player) => {
+    .then((updates) => {
+      // console.log('Here are the updates',updates)
+      //great place to add to clubs n stuff
+      //assumming that we will add to first season and all rounds
       //try filtering pw
-      return player;
+      return Promise.all(updates[2].map((round) => {
+        // add player id to each round
+        // console.log('Here we are ',updates[1]._id)
+        round.players.push(updates[1]._id);
+        return round.save();
+      }))
+      .then((rounds) => {
+        // console.log('Resolved rounds \n', rounds);
+        // add player id to the season
+        // console.log('this is the season', updates[0]);
+        updates[0].players.push(updates[1]._id);
+        return updates[0].save();
+      })
+      .then((season) => {
+        console.log('This is the resolved season', season);
+        return Models.Player.findOne({_id: updates[1]._id}).exec()
+          .then((foundPlayer) => {
+            // console.log('season id check', season._id);
+            foundPlayer.seasons.push(season._id);
+            return foundPlayer.save();
+          })
+          .then((insertedPlayer) => {
+            console.log('Final player', insertedPlayer);
+            return insertedPlayer;
+          })
+      })
     })
     .then((player) => {
       let payload = {};
@@ -109,6 +167,7 @@ module.exports.addScores = function(playerScores) {
 }
 
 module.exports.getSeasonsByPlayer = function(playerId) {
+
   //first find the club they belong to, then populate every season field
   return Models.Player.findOne({_id: playerId})
     .populate({

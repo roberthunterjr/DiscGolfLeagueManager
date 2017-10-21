@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const testClubs= [
-  {
-    name: 'ABC Disc Golf'
-  },
+  // {
+  //   name: 'ABC Disc Golf'
+  // },
   {
     name: 'XYZ Golf Club'
   },
@@ -36,10 +36,10 @@ const testCourses= [
 ];
 
 const testSeasons = [
-  {
-    name: 'Spring 2018',
-    year: 2018,
-  },
+  // {
+  //   name: 'Spring 2018',
+  //   year: 2018,
+  // },
   {
     name: 'Summer 2017',
     year: 2017,
