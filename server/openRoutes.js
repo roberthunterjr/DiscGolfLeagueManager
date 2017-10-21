@@ -67,6 +67,14 @@ router.get('/getSeasonsByPlayer/:id', (req, res) => {
     .catch((err) => {
       res.status(401).send(err);
     });
+});
+
+router.post('/createRound', (req, res) => {
+  console.log('Request Body', req.body);
+  helpers.createRound(req.body)
+    .then((round) =>{
+      res.send(round);
+    })
 })
 
 module.exports = router;

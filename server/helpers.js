@@ -193,11 +193,35 @@ module.exports.getSeasonsByPlayer = function(playerId) {
     })
     .exec()
     .then((seasons) => {
-      console.log('What do we have heree\n',seasons);
+      // console.log('What do we have heree\n',seasons);
       return seasons;
     })
   // return Models.Season.find(club)
 }
+
+module.exports.createRound = function(round){
+  // return Promise.resolve(round);
+  // console.log('Here is the round.card ',round.cards);
+  var cardPromises = round.cards.map((card) => {
+    tempCard = new Models.Card(card);
+    tempCard.round = round.id;
+    tempCard.season = round.season;
+    return tempCard.save()
+  });
+  return Promise.all(cardPromises)
+    .then((insertedRounds) => {
+      // console.log('promises ', insertedRounds);
+      return insertedRounds;
+    })
+  // return Models.Round.findOne({round_number: 2}).exec()
+}
+
+
+
+
+
+
+
 /*
 When adding a club we are expecting this to occur only in tandum with
 a recent user signup or from the panel of an already authenticated user.
