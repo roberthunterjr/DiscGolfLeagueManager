@@ -174,12 +174,21 @@ module.exports.getSeasonsByPlayer = function(playerId) {
       path: 'seasons',
       populate: {
         path: 'courses',
-      },
+      }
+    })
+    .populate({
+      path:'seasons',
       populate: {
-        path: 'players'
-      },
+        path:'players'
+      }
+    })
+    .populate({
+      path: 'seasons',
       populate: {
-        path: 'rounds'
+        path: 'rounds',
+        options: {
+          sort: {round_number: 1}
+        }
       }
     })
     .exec()
