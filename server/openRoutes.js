@@ -9,15 +9,17 @@ These routes are open and do not require authentication to proceed
 
 router.post('/addPlayer', (req, res) => {
   console.log('Request body is here', req.body);
-  // helpers.addPlayer({first_name: 'John', email: 'john@example.com', password: 'HashMe'})
-  helpers.addPlayer(req.body)
-    .then((payload) =>{
+  helpers.checkPlayerExists(req.body.email)
+  .then((doesExist) => {
+    helpers.addPlayer(req.body)
+    .then((payload) => {
       res.send(payload);
-    })
-    .catch((err)=>{
-      console.log('error found here', err);
-      res.status(402).send('Error encountered adding player')
-    })
+    });
+  })
+  .catch((err)=>{
+    console.log('error found here', err);
+    res.status(402).send('Error encountered adding player')
+  })
 });
 
 router.post('/login', (req, res) => {

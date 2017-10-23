@@ -9,34 +9,24 @@ module.exports.getPlayers = function() {
 
 module.exports.getPlayer = function(userid) {
   return Models.Player.findById(userid).exec();
-}
-module.exports.addPlayer = function(player) {
-  // let tempPlayer = new Models.Player(player);
-  // return tempPlayer
-  //   .hashPw(player.password)
-  //   .then((hashedPw) => {
-  //     tempPlayer.password = hashedPw
-  //     return tempPlayer.save()
-  //   })
-  //   .then((savedPlayer) => {
-  //     return Models.Season.findOne({name: 'Fall 2017'})
-  //       .then((season) => {
-  //         season.players.push(savedPlayer._id)
-  //         return season.save()
-  //           .then((savedSeason) => {
-  //             return { player: savedPlayer, season: savedSeason }
-  //           })
-  //       })
-  //   })
-  //   .then(({ player, season }) => {
-  //     return Models.Round.find({}).exec()
-  //       .then((rounds) => {
-  //         return Promise.all(rounds.map((round) => {
-  //           return round.season.push(season._id).save();
-  //         }))
-  //       })
-  //   })
+};
 
+//simple funciton to see if a player is in the DB
+module.exports.checkPlayerExists = function(playerEmail) {
+  return Models.Player.find({email: playerEmail}).exec()
+    .then((players) => {
+      console.log('Check yoself', players);
+      if(!players.length){
+        return players
+      } else {
+        throw 'User already exists';
+        return players
+      }
+    });
+};
+
+
+module.exports.addPlayer = function(player) {
   let tempPlayer = new Models.Player(player);
   return tempPlayer.hashPw(player.password)
     .then((hashedPw) =>{
@@ -48,10 +38,7 @@ module.exports.addPlayer = function(player) {
       return Promise.all([updates.season,updates.player, updates.round])
     })
     .then((updates) => {
-      // console.log('Here are the updates',updates)
-      //great place to add to clubs n stuff
       //assumming that we will add to first season and all rounds
-      //try filtering pw
       return Promise.all(updates[2].map((round) => {
         // add player id to each round
         // console.log('Here we are ',updates[1]._id)
@@ -66,7 +53,7 @@ module.exports.addPlayer = function(player) {
         return updates[0].save();
       })
       .then((season) => {
-        console.log('This is the resolved season', season);
+        // console.log('This is the resolved season', season);
         return Models.Player.findOne({_id: updates[1]._id}).exec()
           .then((foundPlayer) => {
             // console.log('season id check', season._id);
