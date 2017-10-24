@@ -205,7 +205,14 @@ module.exports.createRound = function(round){
 
 module.exports.getPlayerCard = function(playerId, roundId) {
   // console.log('Player Id and round id in helper', playerId, roundId);
-  return Models.Card.findOne({round: roundId, players: playerId}).exec()
+  return Models.Card.findOne({round: roundId, players: playerId})
+  .populate({
+    path: 'players',
+    options: {
+      select: ' -password -created -clubs'
+    }
+  })
+  .exec()
     .then((card) => {
       console.log('Cards ', card);
       return card;
