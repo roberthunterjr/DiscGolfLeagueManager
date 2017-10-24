@@ -203,7 +203,17 @@ module.exports.createRound = function(round){
   // return Models.Round.findOne({round_number: 2}).exec()
 }
 
-
+module.exports.getPlayerCard = function(playerId, roundId) {
+  // console.log('Player Id and round id in helper', playerId, roundId);
+  return Models.Card.findOne({round: roundId, players: playerId}).exec()
+    .then((card) => {
+      console.log('Cards ', card);
+      return card;
+    }, (error) => {
+      console.log('Error', error);
+      throw error;
+    })
+}
 
 
 

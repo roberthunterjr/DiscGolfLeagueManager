@@ -77,6 +77,18 @@ router.post('/createRound', (req, res) => {
     .then((round) =>{
       res.send(round);
     })
-})
+});
+
+router.post('/getPlayerCard', (req, res) => {
+  // console.log('Player id and round id is ',req.body);
+  helpers.getPlayerCard(req.body.player_id, req.body.round_id)
+    .then((card) => {
+      console.log('Card in then', card);
+      res.send(card);
+    })
+    .catch((error) => {
+      res.send('No wins for you');
+    })
+});
 
 module.exports = router;
