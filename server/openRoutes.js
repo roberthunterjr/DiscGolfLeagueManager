@@ -75,7 +75,11 @@ router.post('/createRound', (req, res) => {
   console.log('Request Body', req.body);
   helpers.createRound(req.body)
     .then((round) =>{
-      res.send(round);
+      res.status(201).send(round);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(402).send(err);
     })
 });
 

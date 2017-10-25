@@ -189,32 +189,53 @@ module.exports.getSeasonsByPlayer = function(playerId) {
 module.exports.createRound = function(round){
   // return Promise.resolve(round);
   // console.log('Here is the round.card ',round.cards);
-  var cardPromises = round.cards.map((card) => {
-    tempCard = new Models.Card(card);
+  var newRound = Object.assign({},round);
+  var cardPromises = Object.keys(round.cards).map((card) => {
+    tempCard = new Models.Card(round.cards[card]);
     tempCard.round = round.id;
     tempCard.season = round.season;
     return tempCard.save()
   });
-  var blankPlayerScores = round.players.map((playerId) => {
-    return Models.PlayerRoundScore({
-      player: playerId,
-      round: round.id,
-      season: round.season
-    })
-  });
-  return Promise.all(blankPlayerScores)
-  .then((blankScoreCards) => {
-    console.log('blank scores are ', blankScoreCards);
+  var scores = {};
+  return Models.Course.findOne({_id: round.course}).exec()
+  .then((course) => {
+    newRound.course = course;
+    return course.hole_details
+  })
+  .then((courseHoles) => {
+    Object.keys(round.playersPresent).forEach((playerId) => {
+      scores[playerId] = {};
+      for( var holeNumber in courseHoles) {
+        scores[playerId][holeNumber] = 2;
+      }
+    });
+    // console.log('This is the scores object currently(Check)', scores);
+    newRound.scores = scores;
+    // return scores;
   })
   .then(() => {
     return Promise.all(cardPromises)
-      .then((insertedRounds) => {
-        // console.log('promises ', insertedRounds);
-        return insertedRounds;
-      })
-    // return Models.Round.findOne({round_number: 2}).exec()
-})
-}
+    .then((insertedCards) => {
+      // console.log('promises ', insertedRounds);
+      return insertedCards;
+    })
+  })
+  .then((insertedCards) => {
+    newRound.cards = insertedCards;
+    // console.log('NEWROUNDCARD',insertedCards);
+    newRound.in_progress = true;
+    // console.log('The new round to be added', newRound);
+    return Models.Round.findOneAndUpdate({_id: newRound.id}, newRound, {new: true})
+    .populate({
+      path: 'cards'
+    })
+    .exec()
+  })
+  .then((insertedRound) => {
+    console.log('The inserted round', insertedRound);
+    return insertedRound;
+  })
+};
 
 module.exports.getPlayerCard = function(playerId, roundId) {
   // console.log('Player Id and round id in helper', playerId, roundId);
