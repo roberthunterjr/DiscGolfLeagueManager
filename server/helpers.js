@@ -194,6 +194,7 @@ module.exports.createRound = function(round){
     tempCard = new Models.Card(round.cards[card]);
     tempCard.round = round.id;
     tempCard.season = round.season;
+    tempCard.score_keeper = round.cards[card].scoreKeeper;
     return tempCard.save()
   });
   var scores = {};
@@ -224,11 +225,11 @@ module.exports.createRound = function(round){
     newRound.cards = insertedCards;
     // console.log('NEWROUNDCARD',insertedCards);
     newRound.in_progress = true;
-    console.log('The new round to be added', newRound);
+    // console.log('The new round to be added', newRound);
     return Models.Round.findOneAndUpdate({_id: newRound.id}, newRound, {new: true})
-    .populate({
-      path: 'cards'
-    })
+    .populate(
+      [{path: 'cards'}, {path: 'course'}]
+    )
     .exec()
   })
   .then((insertedRound) => {
