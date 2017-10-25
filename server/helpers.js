@@ -195,12 +195,25 @@ module.exports.createRound = function(round){
     tempCard.season = round.season;
     return tempCard.save()
   });
-  return Promise.all(cardPromises)
-    .then((insertedRounds) => {
-      // console.log('promises ', insertedRounds);
-      return insertedRounds;
+  var blankPlayerScores = round.players.map((playerId) => {
+    return Models.PlayerRoundScore({
+      player: playerId,
+      round: round.id,
+      season: round.season
     })
-  // return Models.Round.findOne({round_number: 2}).exec()
+  });
+  return Promise.all(blankPlayerScores)
+  .then((blankScoreCards) => {
+    console.log('blank scores are ', blankScoreCards);
+  })
+  .then(() => {
+    return Promise.all(cardPromises)
+      .then((insertedRounds) => {
+        // console.log('promises ', insertedRounds);
+        return insertedRounds;
+      })
+    // return Models.Round.findOne({round_number: 2}).exec()
+})
 }
 
 module.exports.getPlayerCard = function(playerId, roundId) {
@@ -210,6 +223,12 @@ module.exports.getPlayerCard = function(playerId, roundId) {
     path: 'players',
     options: {
       select: ' -password -created -clubs'
+    },
+    populate: {
+      path: 'player_rounds',
+      options: {
+        match: { round: roundId}
+      }
     }
   })
   .exec()

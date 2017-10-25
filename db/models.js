@@ -7,3 +7,4 @@ module.exports.HoleStat = require('./models/holeStat.js');
 module.exports.Season = require('./models/season.js');
 module.exports.Player = require('./models/player.js');
 module.exports.Round = require('./models/round.js');
+module.exports.PlayerRoundScore = require('./models/playerRoundScore.js');

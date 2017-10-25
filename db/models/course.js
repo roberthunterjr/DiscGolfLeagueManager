@@ -6,7 +6,7 @@ const courseSchema = new mongoose.Schema({
   location: String,
   length: Number,
   par: Number,
-  hole_number: Number,
+  number_of_holes: Number,
   hole_details: Schema.Types.Mixed
 });
 
