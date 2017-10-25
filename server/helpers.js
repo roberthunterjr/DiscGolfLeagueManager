@@ -224,7 +224,7 @@ module.exports.createRound = function(round){
     newRound.cards = insertedCards;
     // console.log('NEWROUNDCARD',insertedCards);
     newRound.in_progress = true;
-    // console.log('The new round to be added', newRound);
+    console.log('The new round to be added', newRound);
     return Models.Round.findOneAndUpdate({_id: newRound.id}, newRound, {new: true})
     .populate({
       path: 'cards'
