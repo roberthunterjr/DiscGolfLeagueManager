@@ -264,7 +264,7 @@ module.exports.getPlayerCard = function(playerId, roundId) {
 }
 
 module.exports.getCurrentRoundData = function(roundId, playerId) {
-  return Models.Round.findOne({_id: roundId, players: playerId})
+  return Models.Round.findOne({_id: roundId, players: playerId, in_progress: true})
   .populate(
     [{path: 'cards'}, {path: 'course'}]
   )
