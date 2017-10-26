@@ -83,6 +83,18 @@ router.post('/createRound', (req, res) => {
     })
 });
 
+router.get('/getRound/:id/:playerId', (req, res) => {
+  console.log('Request Body', req.params.id, req.params.playerId);
+  helpers.getRoundById(req.params.id, req.params.playerId)
+    .then((round) => {
+      res.status(200).send(round);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(401).send(err);
+    })
+})
+
 router.post('/getPlayerCard', (req, res) => {
   // console.log('Player id and round id is ',req.body);
   helpers.getPlayerCard(req.body.player_id, req.body.round_id)

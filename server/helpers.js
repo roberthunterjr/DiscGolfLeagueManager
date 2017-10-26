@@ -263,6 +263,17 @@ module.exports.getPlayerCard = function(playerId, roundId) {
     })
 }
 
+module.exports.getRoundById = function(roundId, playerId) {
+  return Models.Round.findOne({_id: roundId, players: playerId})
+  .populate(
+    [{path: 'cards'}, {path: 'course'}]
+  )
+  .exec()
+  .then((round)=> {
+    console.log(round);
+    return round;
+  });
+}
 
 
 
