@@ -83,9 +83,9 @@ router.post('/createRound', (req, res) => {
     })
 });
 
-router.get('/getRound/:id/:playerId', (req, res) => {
+router.get('/getCurrentRoundData/:id/:playerId', (req, res) => {
   console.log('Request Body', req.params.id, req.params.playerId);
-  helpers.getRoundById(req.params.id, req.params.playerId)
+  helpers.getCurrentRoundData(req.params.id, req.params.playerId)
     .then((round) => {
       res.status(200).send(round);
     })
