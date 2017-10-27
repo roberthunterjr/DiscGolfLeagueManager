@@ -143,7 +143,7 @@ module.exports.updateScores = function(round) {
     round.completed = true;
     round.in_progress = false;
   }
-  Models.findOneAndUpdate({_id: round._id}, round, {new: true})
+  Models.Card.findOneAndUpdate({_id: round._id}, round, {new: true})
   .populate(
     [
       {
