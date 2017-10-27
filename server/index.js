@@ -6,8 +6,19 @@ const routes = require('./routes.js');
 const openRoutes = require('./openRoutes.js');
 const app = express();
 const session = require('express-session');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 
+// Initialize Sockets
+
+io.on('connection', (socket) => {
+  console.log('Socket connection established');
+  socket.on('test', (message) => {
+    console.log('Here is the message: ', message);
+    socket.emit('test','Server Broadcasting')
+  });
+})
 // Connect to DB
 const migrate = require('../db/migrate.js');
 mongoose.connect(process.env.DB_URI, { useMongoClient: true });
@@ -27,7 +38,7 @@ db.once('open', function() {
 //   .catch(() => {
 //     console.log('error with migration')
 //   })
-  // migrate.up(); 
+  // migrate.up();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,5 +57,5 @@ app.use('/', openRoutes);
 app.use('/api', routes);
 
 // Start up Server
-app.listen(3000);
+http.listen(3000);
 console.log('Server listening on port 3000...');
