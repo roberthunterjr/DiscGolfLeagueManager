@@ -231,9 +231,10 @@ module.exports.createRound = function(round){
     return course.hole_details
   })
   .then((courseHoles) => {
+    console.log('Course holes is ', courseHoles.hole_details);
     Object.keys(round.playersPresent).forEach((playerId) => {
       scores[playerId] = {};
-      for( var holeNumber in courseHoles) {
+      for( var holeNumber in courseHoles.hole_details) {
         scores[playerId][holeNumber] = 2;
       }
     });
@@ -260,7 +261,7 @@ module.exports.createRound = function(round){
     .exec()
   })
   .then((insertedRound) => {
-    console.log('The inserted round', insertedRound);
+    // console.log('The inserted round', insertedRound);
     return insertedRound;
   })
 };

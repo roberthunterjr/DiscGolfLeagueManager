@@ -7,6 +7,17 @@ These routes are open and do not require authentication to proceed
 
 */
 
+//Set up Sockets
+var Sockets = function(io) {
+  io.on('connection', (socket) => {
+    console.log('Socket connection established');
+    socket.on('test', (message) => {
+      console.log('Here is the message: ', message);
+      socket.emit('test','Server Broadcasting')
+    });
+  })
+}
+
 router.post('/addPlayer', (req, res) => {
   console.log('Request body is here', req.body);
   helpers.checkPlayerExists(req.body.email)
@@ -107,4 +118,4 @@ router.post('/getPlayerCard', (req, res) => {
     })
 });
 
-module.exports = router;
+module.exports = {router, Sockets};

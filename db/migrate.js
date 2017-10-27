@@ -16,20 +16,98 @@ const testCourses= [
   {
     name: 'Pease Park',
     location: 'Austin, Tx',
-    hole_number: 18,
+    number_of_holes: 18,
     par: 58,
     hole_details: {
-      1: {
-        par: 3,
-        length: 380
+      "1": {
+        "hole_number": 1,
+        "par": 3,
+        "length": 380
       },
-      2: {
-        par: 4,
-        length: 150
+      "2": {
+        "hole_number": 2,
+        "par": 4,
+        "length": 450
       },
-      3: {
-        par: 5,
-        length: 450
+      "3": {
+        "hole_number": 3,
+        "par": 3,
+        "length": 280,
+      },
+      "4": {
+        "hole_number": 4,
+        "par": 3,
+        "length": 279,
+      },
+      "5": {
+        "hole_number": 5,
+        "par": 4,
+        "length": 602,
+      },
+      "6": {
+        "hole_number": 6,
+        "par": 3,
+        "length": 338
+      },
+      "7": {
+        "hole_number": 7,
+        "par": 3,
+        "length": 380
+      },
+      "8": {
+        "hole_number": 8,
+        "par": 4,
+        "length": 450
+      },
+      "9": {
+        "hole_number": 9,
+        "par": 3,
+        "length": 280,
+      },
+      "10": {
+        "hole_number": 10,
+        "par": 3,
+        "length": 279,
+      },
+      "11": {
+        "hole_number": 11,
+        "par": 4,
+        "length": 602,
+      },
+      "12": {
+        "hole_number": 12,
+        "par": 3,
+        "length": 338
+      },
+      "13": {
+        "hole_number": 13,
+        "par": 3,
+        "length": 380
+      },
+      "14": {
+        "hole_number": 14,
+        "par": 4,
+        "length": 450
+      },
+      "15": {
+        "hole_number": 15,
+        "par": 3,
+        "length": 280,
+      },
+      "16": {
+        "hole_number": 16,
+        "par": 3,
+        "length": 279,
+      },
+      "17": {
+        "hole_number": 17,
+        "par": 4,
+        "length": 602,
+      },
+      "18": {
+        "hole_number": 18,
+        "par": 3,
+        "length": 338
       }
     }
   }
@@ -290,4 +368,7 @@ module.exports.down = function() {
     .then(() => {
       return Models.Season.collection.drop().exec()
     })
+}
+module.exports.course = function() {
+  Models.Course.findOneAndUpdate({_id: "59ea986dfb55674bbf2af136"}, {hole_details: testCourses[0] }).exec();
 }

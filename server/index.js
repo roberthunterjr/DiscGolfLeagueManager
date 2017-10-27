@@ -4,21 +4,21 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes.js');
 const openRoutes = require('./openRoutes.js');
-const app = express();
 const session = require('express-session');
+const app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 
 // Initialize Sockets
-
-io.on('connection', (socket) => {
-  console.log('Socket connection established');
-  socket.on('test', (message) => {
-    console.log('Here is the message: ', message);
-    socket.emit('test','Server Broadcasting')
-  });
-})
+var Socket = openRoutes.Sockets(io);
+// io.on('connection', (socket) => {
+//   console.log('Socket connection established');
+//   socket.on('test', (message) => {
+//     console.log('Here is the message: ', message);
+//     socket.emit('test','Server Broadcasting')
+//   });
+// })
 // Connect to DB
 const migrate = require('../db/migrate.js');
 mongoose.connect(process.env.DB_URI, { useMongoClient: true });
@@ -29,7 +29,7 @@ db.on('error', console.log.bind(console,'(*(*(*(*(*Error connecting'));
 db.once('open', function() {
   console.log('connection open successfully');
 });
-
+// migrate.course();
 // Migration (dev purposes only)
 // migrate.down()
 //   .then(() => {
@@ -51,7 +51,7 @@ app.use(session({
 }));
 
 // Non-protected routes
-app.use('/', openRoutes);
+app.use('/', openRoutes.router);
 
 // Require API Routes
 app.use('/api', routes);
