@@ -145,8 +145,8 @@ module.exports.updateScores = function(round) {
     return Models.Card.findOneAndUpdate({_id: card._id}, card, {new: true}).exec()
   })
   if(round.cards.every((card) => card.is_completed || false)) {
-    update.completed = true;
-    update.in_progress = false;
+    round.completed = true;
+    round.in_progress = false;
   }
   return Promise.all(update.cards)
   .then((updatedCards) => {
