@@ -9,6 +9,7 @@ const cardSchema = new mongoose.Schema({
   clubs: [{type: Schema.Types.ObjectId, ref: 'club'}],
   season: {type: Schema.Types.ObjectId, ref: 'season'},
   round:{type: Schema.Types.ObjectId, ref: 'round'},
+  is_completed: { type: Boolean, default: false},
   date: {type: Date, default: Date.now()},
   score_keeper: {type: Schema.Types.ObjectId, ref: 'player'},
   admin: {type: Schema.Types.ObjectId, ref: 'player'},

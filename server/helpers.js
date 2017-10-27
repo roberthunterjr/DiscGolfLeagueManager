@@ -137,20 +137,34 @@ module.exports.getAuth = function(key) {
   });
 }
 
-module.exports.addScores = function(playerScores) {
-  let hole = playerScores.hole;
-  let scoreStats = playerScores.player_score.map((playerScoreTuple) => {
-    return new Models.HoleStat({
-      player: (Object.keys(playerScoreTuple))[0],
-      number_strokes: playerScoreTuple[Object.keys(playerScoreTuple)[0]]
-    }).save();
-  });
-  return Promise.all(scoreStats);
-  // return new Promise(function(resolve, reject) {
-  //   scoreStats.forEach((scoreModel) => {
-  //     return scoreModel.save();
-  //   });
-  // });
+module.exports.updateScores = function(round) {
+  //if all cards are complete
+  if(round.cards.every((card) => is_completed)) {
+    round.completed = true;
+    round.in_progress = false;
+  }
+  Models.findOneAndUpdate({_id: round._id}, round, {new: true})
+  .populate(
+    [
+      {
+        path: 'cards',
+        populate: {
+          path: 'players',
+          options: {
+            select: '-password'
+          }
+        }
+      },
+      {
+        path: 'course'
+      }
+    ]
+  )
+  .exec()
+  .then((updated)=>{
+    console.log('Updated round ',updated);
+    return updated;
+  })
 }
 
 module.exports.getSeasonsByPlayer = function(playerId) {

@@ -38,9 +38,9 @@ router.post('/login', (req, res) => {
     })
 });
 
-router.post('/addScores', (req, res) => {
-  console.log('Beginning the login process' , req.body);
-  helpers.addScores(req.body)
+router.post('/updateScores', (req, res) => {
+  console.log('Beginning the update scores process' , req.body);
+  helpers.updateScores(req.body)
     .then((payload) => {
       res.send(payload);
     })
