@@ -139,31 +139,44 @@ module.exports.getAuth = function(key) {
 
 module.exports.updateScores = function(round) {
   //if all cards are complete
+  var update = {}
+  update.scores = round.scores;
+  update.cards = round.cards.map((card) => {
+    return Models.Card.findOneAndUpdate({_id: card._id}, card, {new: true}).exec()
+  })
   if(round.cards.every((card) => card.is_completed || false)) {
-    round.completed = true;
-    round.in_progress = false;
+    update.completed = true;
+    update.in_progress = false;
   }
-  Models.Card.findOneAndUpdate({_id: round._id}, round, {new: true})
-  .populate(
-    [
-      {
-        path: 'cards',
-        populate: {
-          path: 'players',
-          options: {
-            select: '-password'
+  return Promise.all(update.cards)
+  .then((updatedCards) => {
+    console.log('Updated Cards, ', updatedCards);
+    return updatedCards;
+  })
+  .then(()=> {
+
+    return Models.Round.findOneAndUpdate({_id: round._id}, round, {new: true})
+    .populate(
+      [
+        {
+          path: 'cards',
+          populate: {
+            path: 'players',
+            options: {
+              select: '-password'
+            }
           }
+        },
+        {
+          path: 'course'
         }
-      },
-      {
-        path: 'course'
-      }
-    ]
-  )
-  .exec()
-  .then((updated)=>{
-    console.log('Updated round ',updated);
-    return updated;
+      ]
+    )
+    .exec()
+    .then((updated)=>{
+      console.log('Updated round ',updated);
+      return updated;
+    })
   })
 }
 
