@@ -139,7 +139,7 @@ module.exports.getAuth = function(key) {
 
 module.exports.updateScores = function(round) {
   //if all cards are complete
-  if(round.cards.every((card) => is_completed)) {
+  if(round.cards.every((card) => is_completed || false)) {
     round.completed = true;
     round.in_progress = false;
   }
