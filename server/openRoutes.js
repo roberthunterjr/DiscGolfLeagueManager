@@ -15,7 +15,7 @@ var Sockets = function(io) {
       if(message.type ==='START ROUND'){
         helpers.createRound(message.body)
           .then((updatedRound) => {
-            console.log('Socket round update:',updatedRound.cards.players)
+            console.log('Socket round update:',updatedRound.cards)
             var payload = {
               id: message.id,
               body: updatedRound
