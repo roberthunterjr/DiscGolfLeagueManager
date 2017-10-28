@@ -12,9 +12,8 @@ var Sockets = function(io) {
   io.on('connection', (socket) => {
     console.log('Socket connection established');
     socket.on('test', (message) => {
-      console.log('Here is the channel make it message.channel')
       console.log('Here is the message: ', message);
-      socket.emit('test','From server' + message.body);
+      io.emit('test',{body: message.body});
     });
   })
 }
