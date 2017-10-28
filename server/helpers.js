@@ -256,7 +256,7 @@ module.exports.createRound = function(round){
     // console.log('The new round to be added', newRound);
     return Models.Round.findOneAndUpdate({_id: newRound.id}, newRound, {new: true})
     .populate(
-      [{path: 'cards'}, {path: 'course'}]
+      [{path: 'cards', populate:{ path: 'players'}}, {path: 'course'}]
     )
     .exec()
   })
