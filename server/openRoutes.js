@@ -12,6 +12,16 @@ var Sockets = function(io) {
   io.on('connection', (socket) => {
     console.log('Socket connection established');
     socket.on('test', (message) => {
+      if(message.type ==='START ROUND'){
+        helpers.createRound(message.body)
+          .then((updatedRound) => {
+            var payload = {
+              id: message.id,
+              body: updatedRound
+            }
+            io.emit('test', payload);
+          })
+      }
       console.log('Here is the message: ', message);
       io.emit('test',{body: message.body});
     });
