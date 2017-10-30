@@ -150,7 +150,7 @@ module.exports.updateScores = function(round) {
   }
   return Promise.all(update.cards)
   .then((updatedCards) => {
-    console.log('Updated Cards, ', updatedCards);
+    // console.log('Updated Cards, ', updatedCards);
     return updatedCards;
   })
   .then(()=> {

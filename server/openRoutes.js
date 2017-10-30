@@ -23,16 +23,19 @@ var Sockets = function(io) {
             io.emit('test', payload);
           })
       }
-      if(message.type === 'FINISH ROUND') {
-        helpers.updateScores(message.body)
-          .then((updatedRound) => {
-            var payload = {
-              id: message.id,
-              body: updatedRound,
-              type: 'FINISH ROUND CLIENT'
-            }
-            io.emit('test', payload);
-          })
+      if(message.type === 'FINISH CARD') {
+        console.log("******************Card Finished")
+        var payload = {
+          id: message.id,
+          body: updatedRound,
+          type: 'FINISH ROUND CLIENT'
+        }
+        if(updatedRound.is_completed){
+          io.emit('test', payload);
+        }
+        // helpers.updateScores(message.body)
+        //   .then((updatedRound) => {
+        //   })
       }
       // console.log('Here is the message: ', message);
       // io.emit('test',{body: message.body});
