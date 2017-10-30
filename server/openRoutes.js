@@ -19,6 +19,7 @@ var Sockets = function(io) {
             var payload = {
               id: message.id,
               body: updatedRound
+              type: 'START ROUND CLIENT'
             }
             io.emit('test', payload);
           })
