@@ -27,7 +27,7 @@ var Sockets = function(io) {
         console.log("******************Card Finished")
         var payload = {
           id: message.id,
-          body: updatedRound,
+          body: message.body,
           type: 'FINISH ROUND CLIENT'
         }
         if(updatedRound.is_completed){
