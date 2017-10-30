@@ -18,7 +18,7 @@ var Sockets = function(io) {
             // console.log('Socket round update:',updatedRound.cards)
             var payload = {
               id: message.id,
-              body: updatedRound
+              body: updatedRound,
               type: 'START ROUND CLIENT'
             }
             io.emit('test', payload);
