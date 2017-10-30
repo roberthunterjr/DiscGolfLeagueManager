@@ -12,10 +12,10 @@ var Sockets = function(io) {
   io.on('connection', (socket) => {
     console.log('Socket connection established');
     socket.on('test', (message) => {
-      if(message.type ==='START ROUND'){
+      if(message.type ==='START ROUND') {
         helpers.createRound(message.body)
           .then((updatedRound) => {
-            console.log('Socket round update:',updatedRound.cards)
+            // console.log('Socket round update:',updatedRound.cards)
             var payload = {
               id: message.id,
               body: updatedRound
@@ -23,8 +23,19 @@ var Sockets = function(io) {
             io.emit('test', payload);
           })
       }
-      console.log('Here is the message: ', message);
-      io.emit('test',{body: message.body});
+      if(message.type === 'FINISH ROUND') {
+        helpers.updateScores(message.body)
+          .then((updatedRound) => {
+            var payload = {
+              id: message.id,
+              body: updatedRound,
+              type: 'FINISH ROUND CLIENT'
+            }
+            io.emit('test', payload);
+          })
+      }
+      // console.log('Here is the message: ', message);
+      // io.emit('test',{body: message.body});
     });
   })
 }
