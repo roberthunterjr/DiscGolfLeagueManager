@@ -30,12 +30,13 @@ var Sockets = function(io) {
           body: message.body,
           type: 'FINISH ROUND CLIENT'
         }
-        io.emit('test', payload);
-        if(message.body.completed){
-        }
-        // helpers.updateScores(message.body)
-        //   .then((updatedRound) => {
-        //   })
+        helpers.updateScores(message.body)
+        .then((updatedRound) => {
+          if(updatedRound.completed){
+            io.emit('test', payload);
+          }
+        })
+
       }
       // console.log('Here is the message: ', message);
       // io.emit('test',{body: message.body});
