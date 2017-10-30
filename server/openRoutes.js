@@ -30,9 +30,11 @@ var Sockets = function(io) {
           body: message.body,
           type: 'FINISH ROUND CLIENT'
         }
+        console.log(message.body,'*********End of socket body')
         helpers.updateScores(message.body)
         .then((updatedRound) => {
           if(updatedRound.completed){
+            console.log('%%%%%%% Round Competed!!!!!');
             io.emit('test', payload);
           }
         })
