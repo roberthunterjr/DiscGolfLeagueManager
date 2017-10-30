@@ -36,6 +36,10 @@ var Sockets = function(io) {
           if(updatedRound.completed){
             console.log('%%%%%%% Round Competed!!!!!');
             io.emit('test', payload);
+          } else {
+            console.log('%%%%%%% Round updates sent')
+            payload.type = 'UPDATE SCORE CLIENT'
+            io.emit('test', payload);
           }
         })
 
