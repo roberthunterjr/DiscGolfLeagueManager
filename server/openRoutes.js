@@ -30,8 +30,8 @@ var Sockets = function(io) {
           body: message.body,
           type: 'FINISH ROUND CLIENT'
         }
-        if(message.body.is_completed){
-          io.emit('test', payload);
+        io.emit('test', payload);
+        if(message.body.completed){
         }
         // helpers.updateScores(message.body)
         //   .then((updatedRound) => {
