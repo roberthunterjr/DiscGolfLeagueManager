@@ -238,9 +238,9 @@ module.exports.createRound = function(round){
         totalStrokes: 0,
         scoreRelativeToPar: 'E'
       });
-      for( var holeNumber in courseHoles.hole_details) {
-        scores[playerId][holeNumber] = null;
-      }
+      // for( var holeNumber in courseHoles.hole_details) {
+      //   scores[playerId][holeNumber] = null;
+      // }
     });
     // console.log('This is the scores object currently(Check)', scores);
     newRound.scores = scores;
