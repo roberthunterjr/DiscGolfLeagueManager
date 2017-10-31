@@ -233,19 +233,20 @@ module.exports.createRound = function(round){
   .then((courseHoles) => {
     console.log('Course holes is ', courseHoles.hole_details);
     var newHoleDetails = Object.keys(courseHoles.hole_details).reduce((acc, cur) => {
-      acc[cur] = Object.assign({}, acc[cur], {
-        ...courseHoles.hole_details[cur],
+      acc[cur] = Object.assign({}, courseHoles.hole_details[cur], {
         score : null
       });
       return acc;
     }, {});
     console.log('New hole details ', newHoleDetails);
     Object.keys(round.playersPresent).forEach((playerId) => {
-      scores[playerId] = Object.assign({}, newHoleDetails, {
+      bigObject = {
         player_name: round.playersPresent[playerId].first_name +' ' + round.playersPresent[playerId].last_name,
         totalStrokes: 0,
         scoreRelativeToPar: 'E'
-      });
+      }
+      bigObject= Object.assign(bigObject, newHoleDetails);
+      scores[playerId] = Object.assign({}, bigObject);
       // for( var holeNumber in courseHoles.hole_details) {
       //   scores[playerId][holeNumber] = null;
       // }
