@@ -233,12 +233,11 @@ module.exports.createRound = function(round){
   .then((courseHoles) => {
     console.log('Course holes is ', courseHoles.hole_details);
     Object.keys(round.playersPresent).forEach((playerId) => {
-      scores[playerId] = {
-        ...courseHoles.hole_details,
+      scores[playerId] = Object.assign({},courseHoles.hole_details,{
         player_name: round.playersPresent[playerId].first_name +' ' + round.playersPresent[playerId].last_name,
         totalStrokes: 0,
         scoreRelativeToPar: 'E'
-      };
+      });
       for( var holeNumber in courseHoles.hole_details) {
         scores[playerId][holeNumber] = null;
       }
