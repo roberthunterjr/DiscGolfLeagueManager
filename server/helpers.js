@@ -343,6 +343,21 @@ module.exports.getClubByUser = function(playerId) {
   });
 }
 
+module.exports.addClub = function(clubDetails) {
+
+  //parse into allcaps, no space search
+  //let nameSearch = club.name.split('').join('').toUpperCase();
+  // return Models.Club.find({first_name: club.first_name})
+  var newClub = {
+    name: clubDetails.clubName,
+    location: clubDetails.course.location
+  }
+  var newCourse = {
+    name: clubDetails.course.Name,
+    location: clubDetails.course.location,
+    hole_details: clubDetails.course.holeDetails
+  }
+}
 
 /*
 When adding a club we are expecting this to occur only in tandum with
@@ -351,9 +366,3 @@ In either case, a single player Id should be provided to be pushed into admin []
 Additionally, this will be set to update if the club already exists in the db
 club = {name: "String", id: Player_id}
 */
-
-module.exports.addClub = function(club) {
-  //parse into allcaps, no space search
-  //let nameSearch = club.name.split('').join('').toUpperCase();
-  // return Models.Club.find({first_name: club.first_name})
-}
