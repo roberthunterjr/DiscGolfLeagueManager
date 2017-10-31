@@ -249,7 +249,7 @@ module.exports.createRound = function(round){
       //   scores[playerId][holeNumber] = null;
       // }
     });
-    // console.log('This is the scores object currently(Check)', scores);
+    console.log('This is the scores object currently', scores);
     newRound.scores = scores;
     // return scores;
   })
