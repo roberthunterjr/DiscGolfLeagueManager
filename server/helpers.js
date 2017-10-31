@@ -233,7 +233,8 @@ module.exports.createRound = function(round){
   .then((courseHoles) => {
     console.log('Course holes is ', courseHoles.hole_details);
     var newHoleDetails = Object.keys(courseHoles.hole_details).reduce((acc, cur) => {
-      return acc[cur].score = null;
+      acc[cur].score = null;
+      return acc;
     }, {});
     console.log('New hole details ', newHoleDetails);
     Object.keys(round.playersPresent).forEach((playerId) => {
