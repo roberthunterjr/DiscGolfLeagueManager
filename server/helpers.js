@@ -234,6 +234,7 @@ module.exports.createRound = function(round){
     console.log('Course holes is ', courseHoles.hole_details);
     Object.keys(round.playersPresent).forEach((playerId) => {
       scores[playerId] = {
+        ...courseHoles.hole_details,
         player_name: round.playersPresent[playerId].first_name +' ' + round.playersPresent[playerId].last_name,
         totalStrokes: 0,
         scoreRelativeToPar: 'E'
