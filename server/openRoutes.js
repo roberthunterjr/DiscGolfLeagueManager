@@ -124,9 +124,20 @@ router.get('/getSeasonsByPlayer/:id', (req, res) => {
       res.send(payload)
     })
     .catch((err) => {
-      res.status(401).send(err);
+      res.status(404).send(err);
     });
 });
+
+router.get('/getClubByUser/:id', (req, res) => {
+  console.log('Beginning the getClubByUser call', req.params.id);
+  helpers.getClubByUser(req.params.id)
+    .then((payload) => {
+      res.send(payload);
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    })
+})
 
 router.post('/createRound', (req, res) => {
   console.log('Request Body', req.body);

@@ -235,7 +235,7 @@ module.exports.createRound = function(round){
     Object.keys(round.playersPresent).forEach((playerId) => {
       scores[playerId] = {};
       for( var holeNumber in courseHoles.hole_details) {
-        scores[playerId][holeNumber] = 2;
+        scores[playerId][holeNumber] = null;
       }
     });
     // console.log('This is the scores object currently(Check)', scores);
@@ -313,6 +313,29 @@ module.exports.getCurrentRoundData = function(roundId, playerId) {
   .then((round)=> {
     console.log(round);
     return round;
+  });
+}
+
+module.exports.getClubByUser = function(playerId) {
+  return Models.Player.findOne({_id: playerId}).select('-password ').populate({
+    path: 'clubs',
+    populate: [
+      {
+        path: 'seasons',
+        populate: [
+          {
+            path: 'rounds'
+          }
+        ]
+      },
+      {
+        path:'courses'
+      }
+  ]
+  })
+  .exec()
+  .then((clubInfo) => {
+    return clubInfo;
   });
 }
 
