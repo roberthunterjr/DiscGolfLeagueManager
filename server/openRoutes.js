@@ -31,7 +31,7 @@ var Sockets = function(io) {
           body: message.body,
           type: 'FINISH ROUND CLIENT'
         }
-        console.log(message.body,'*********End of socket body')
+        // console.log(message.body,'*********End of socket body')
         helpers.updateScores(message.body)
         .then((updatedRound) => {
           if(updatedRound.completed){
@@ -44,6 +44,19 @@ var Sockets = function(io) {
           }
         })
 
+      }
+
+      if(message.type === 'UPDATE SCORE') {
+        console.log('Client requested score update');
+        helpers.updateScores(message.body)
+          .then((updatedRound) => {
+            var payload = {
+              id: message.id,
+              body: message.body,
+              type: 'UPDATE SCORE CLIENT'
+            }
+            io.emit('test', payload);
+          })
       }
       // console.log('Here is the message: ', message);
       // io.emit('test',{body: message.body});
