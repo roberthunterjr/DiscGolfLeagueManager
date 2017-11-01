@@ -244,7 +244,7 @@ module.exports.createRound = function(round){
 
       var playersCard;
       for (var card in round.cards) {
-        playersCard = card.players.find((playerObj) => {
+        playersCard = round.cards[card].players.find((playerObj) => {
           return (playerObj.id === playerId)
         })
       }
