@@ -242,17 +242,16 @@ module.exports.createRound = function(round){
     Object.keys(round.playersPresent).forEach((playerId) => {
 
 
-      var playersCard;
+      var playerStartingHole;
       for (var card in round.cards) {
         round.cards[card].players.forEach((playerObj) => {
           if (playerObj._id === playerId) {
-            playersCard = round.cards[card];
+            playerStartingHole = round.cards[card].startingHole;
           }
           console.log('PLAYEROBJ', playerObj);
         })
       }
       console.log('YOU ARE ZE CARD', playersCard);
-      var playersStartingHole = playersCard.startingHole;
 
 
 
