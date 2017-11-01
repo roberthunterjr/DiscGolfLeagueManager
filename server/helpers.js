@@ -241,11 +241,17 @@ module.exports.createRound = function(round){
     console.log('New hole details ', newHoleDetails);
     Object.keys(round.playersPresent).forEach((playerId) => {
 
-      var playersCard = Object.keys(round.cards).find((card) => {
-        console.log('Checking this card for player ID', card);
-        return card.players.includes(player);
-      })
-      var playerStartingHole = playersCard.startingHole;
+
+      var playersCard;
+      for (var card in round.cards) {
+        playersCard = card.players.find((playerObj) => {
+          return (playerObj.id === playerId)
+        })
+      }
+      var playersStartingHole = playersCard.startingHole;
+
+
+
       bigObject = {
         player_name: round.playersPresent[playerId].first_name +' ' + round.playersPresent[playerId].last_name,
         totalStrokes: 0,
