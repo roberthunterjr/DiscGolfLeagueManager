@@ -260,7 +260,7 @@ module.exports.createRound = function(round){
         totalStrokes: 0,
         scoreRelativeToPar: 'E',
         startingHole: playerStartingHole,
-        thru: null
+        thru: 0
       }
       bigObject= Object.assign(bigObject, newHoleDetails);
       scores[playerId] = Object.assign({}, bigObject);
