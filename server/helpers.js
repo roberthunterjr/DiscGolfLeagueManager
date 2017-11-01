@@ -244,8 +244,11 @@ module.exports.createRound = function(round){
 
       var playersCard;
       for (var card in round.cards) {
-        playersCard = round.cards[card].players.find((playerObj) => {
-          return (playerObj.id === playerId)
+        round.cards[card].players.forEach((playerObj) => {
+          if (playerObj.id === playerId) {
+            playersCard = playerObj;
+          }
+          // console.log('PLAYEROBJ', playerObj);
         })
       }
       var playersStartingHole = playersCard.startingHole;
