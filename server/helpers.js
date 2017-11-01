@@ -251,6 +251,7 @@ module.exports.createRound = function(round){
           console.log('PLAYEROBJ', playerObj);
         })
       }
+      console.log('YOU ARE ZE CARD', playersCard);
       var playersStartingHole = playersCard.startingHole;
 
 
