@@ -215,7 +215,7 @@ module.exports.getSeasonsByPlayer = function(playerId) {
 
 module.exports.createRound = function(round){
   // return Promise.resolve(round);
-  // console.log('Here is the round.card ',round.cards);
+  console.log('Here is the round.card ',round.cards);
   var newRound = Object.assign({},round);
   var cardPromises = Object.keys(round.cards).map((card) => {
     tempCard = new Models.Card(round.cards[card]);
@@ -242,6 +242,7 @@ module.exports.createRound = function(round){
     Object.keys(round.playersPresent).forEach((playerId) => {
 
       var playersCard = Object.keys(round.cards).find((card) => {
+        console.log('Checking this card for player ID', card);
         return card.players.includes(player);
       })
       var playerStartingHole = playersCard.startingHole;
