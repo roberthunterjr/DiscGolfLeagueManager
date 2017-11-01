@@ -175,4 +175,40 @@ router.post('/getPlayerCard', (req, res) => {
     })
 });
 
+router.post('/addClub', (req, res) => {
+  console.log('Begin Add Club process', req.body);
+  helpers.addClub(req.body)
+    .then((insertedClub)=> {
+      res.send(insertedClub);
+    })
+    .catch((err)=> {
+      console.log(err);
+      res.status(402).send(err);
+    })
+});
+
+router.post('/addSeason', (req, res) => {
+  console.log('Begin Add Season process', req.body);
+  helpers.addSeason(req.body)
+    .then((insertedSeason) => {
+      res.send(insertedSeason);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(402).send(err);
+    })
+});
+
+router.post('addPlayerToSeason', (req, res) => {
+  console.log('Begin Add player to season process', req.body);
+  helpers.addPlayerToSeason(req.body)
+    .then((updatedSeason) => {
+      res.send(updatedSeason);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(402).send(err);
+    })
+})
+
 module.exports = {router, Sockets};

@@ -359,15 +359,90 @@ module.exports.addClub = function(clubDetails) {
   // return Models.Club.find({first_name: club.first_name})
   var newClub = {
     name: clubDetails.clubName,
-    location: clubDetails.course.location
-  }
+    location: clubDetails.course.location,
+    admins: [clubDetails.userId]
+  };
   var newCourse = {
-    name: clubDetails.course.Name,
+    name: clubDetails.course.name,
     location: clubDetails.course.location,
     hole_details: clubDetails.course.holeDetails
-  }
+  };
+  // console.log('Im here',newClub,newCourse);
+  var tempCourse = new Models.Course(newCourse);
+  return tempCourse.save()
+  .then((insertedCourse) => {
+    newClub.courses = [insertedCourse.id];
+    var tempClub = new Models.Club(newClub);
+    return tempClub.save()
+  })
+  .then((insertedClub) => {
+    console.log('New Club!', insertedClub);
+    return insertedClub;
+  })
 }
 
+module.exports.addSeason = function(request) {
+
+  var newSeason = {
+    name: request.seasonName,
+    year: request.year,
+    club: request.clubId,
+    courses: request.courseIds,
+    players: [request.playerId],
+    number_rounds: request.numberRounds
+  }
+  var newRounds = [];
+  var seasonId;
+  var tempSeason = Models.Season(newSeason);
+  return tempSeason.save()
+    .then((insertedSeason) => {
+      for( var i = 1; i  <= request.numberRounds; i++) {
+        seasonId = insertedSeason.id;
+        var tempRound = new Models.Round({
+          round_number: i,
+          completed: false,
+          in_progress: false,
+          season: seasonId
+        })
+        newRounds.push(tempRound.save())
+      }
+    })
+    .then(() => {
+      return Promise.all(newRounds)
+        .then((insertedRounds) => {
+          return insertedRounds.map((round) => {
+            return round.id;
+          })
+        })
+    })
+    .then((insertedRoundIds) => {
+      console.log('insertedRoundIds', insertedRoundIds);
+      return Models.Season.findOneAndUpdate({_id: seasonId}, {rounds: insertedRoundIds}, {new: true})
+      .exec();
+    })
+    .then((updatedSeason) => {
+      console.log('Newly Created Season is \n',updatedSeason);
+      return updatedSeason;
+    })
+}
+
+module.exports.addPlayerToSeason = function(request) {
+  return Models.Player.findOneAndUpdate({_id: request.playerId},{ $push: {seasons: request.seasonId}}).exec()
+    .then((updatedPlayer)=> {
+      return updatedPlayer;
+    })
+  .then((updatedPLayer) => {
+    return Models.Season.findOneAndUpdate({_id: request.seasonId}, {$push: {players: request.playerId}}).exec()
+  })
+  .then((updatedSeason) => {
+    console.log('updated Season', updatedSeason);
+    return updatedSeason;
+  })
+}
+
+module.exports.addPlayerToClub = function(request) {
+
+}
 /*
 When adding a club we are expecting this to occur only in tandum with
 a recent user signup or from the panel of an already authenticated user.
