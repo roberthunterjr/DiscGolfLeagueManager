@@ -240,10 +240,17 @@ module.exports.createRound = function(round){
     }, {});
     console.log('New hole details ', newHoleDetails);
     Object.keys(round.playersPresent).forEach((playerId) => {
+
+      var playersCard = Object.keys(round.cards).find((card) => {
+        return card.players.includes(player);
+      })
+      var playerStartingHole = playersCard.startingHole;
       bigObject = {
         player_name: round.playersPresent[playerId].first_name +' ' + round.playersPresent[playerId].last_name,
         totalStrokes: 0,
-        scoreRelativeToPar: 'E'
+        scoreRelativeToPar: 'E',
+        startingHole: playerStartingHole,
+        thru: null
       }
       bigObject= Object.assign(bigObject, newHoleDetails);
       scores[playerId] = Object.assign({}, bigObject);
