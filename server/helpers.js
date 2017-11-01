@@ -248,7 +248,7 @@ module.exports.createRound = function(round){
           if (playerObj.id === playerId) {
             playersCard = playerObj;
           }
-          // console.log('PLAYEROBJ', playerObj);
+          console.log('PLAYEROBJ', playerObj);
         })
       }
       var playersStartingHole = playersCard.startingHole;
