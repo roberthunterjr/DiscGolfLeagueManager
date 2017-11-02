@@ -291,6 +291,7 @@ module.exports.createRound = function(round){
     newRound.cards = insertedCards;
     // console.log('NEWROUNDCARD',insertedCards);
     newRound.in_progress = true;
+    newRound.players = Object.keys(round.playersPresent).slice(0)
     // console.log('The new round to be added', newRound);
     return Models.Round.findOneAndUpdate({_id: newRound.id}, newRound, {new: true})
     .populate(
