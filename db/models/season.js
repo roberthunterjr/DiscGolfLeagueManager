@@ -8,7 +8,8 @@ const seasonSchema = new mongoose.Schema({
   club: {type: Schema.Types.ObjectId, ref: 'club'},
   rounds: [{type: Schema.Types.ObjectId, ref: 'round'}],
   players: [{type: Schema.Types.ObjectId, ref: 'player'}],
-  courses: [{type: Schema.Types.ObjectId, ref: 'course'}]
+  courses: [{type: Schema.Types.ObjectId, ref: 'course'}],
+  admins: [{type: Schema.Types.ObjectId, ref: 'player'}]
 });
 
 module.exports = mongoose.model('season', seasonSchema);

@@ -419,7 +419,9 @@ module.exports.addSeason = function(request) {
           round_number: i,
           completed: false,
           in_progress: false,
-          season: seasonId
+          season: seasonId,
+          scores: {},
+          course: request.courseIds[0]
         })
         newRounds.push(tempRound.save())
       }
