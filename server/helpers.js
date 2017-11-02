@@ -202,6 +202,9 @@ module.exports.getSeasonsByPlayer = function(playerId) {
         path: 'rounds',
         options: {
           sort: {round_number: 1}
+        },
+        populate: {
+          path: 'cards'
         }
       }
     })
