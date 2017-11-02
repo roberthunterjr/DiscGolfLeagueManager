@@ -291,7 +291,7 @@ module.exports.createRound = function(round){
     .exec()
   })
   .then((insertedRound) => {
-    // console.log('The inserted round', insertedRound);
+    console.log('The inserted round', insertedRound);
     return insertedRound;
   })
 };
