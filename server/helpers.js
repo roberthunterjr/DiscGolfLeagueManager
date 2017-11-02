@@ -231,14 +231,14 @@ module.exports.createRound = function(round){
     return course.hole_details
   })
   .then((courseHoles) => {
-    console.log('Course holes is ', courseHoles.hole_details);
+    // console.log('Course holes is ', courseHoles.hole_details);
     var newHoleDetails = Object.keys(courseHoles.hole_details).reduce((acc, cur) => {
       acc[cur] = Object.assign({}, courseHoles.hole_details[cur], {
         score : null
       });
       return acc;
     }, {});
-    console.log('New hole details ', newHoleDetails);
+    // console.log('New hole details ', newHoleDetails);
     Object.keys(round.playersPresent).forEach((playerId) => {
 
 
@@ -248,7 +248,7 @@ module.exports.createRound = function(round){
           if (playerObj._id === playerId) {
             playerStartingHole = round.cards[card].startingHole;
           }
-          console.log('PLAYEROBJ', playerObj);
+          // console.log('PLAYEROBJ', playerObj);
         })
       }
       // console.log('YOU ARE ZE CARD', playersCard);
