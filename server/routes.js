@@ -41,8 +41,9 @@ router.get('/getPlayers', (req, res) => {
 router.get('/getAuth', (req, res) => {
   helpers.getAuth(req.headers.key)
     .then((obj) => {
-      console.log(obj);
-      res.status(400).send('Authorized');
+      // console.log(obj);
+      console.log('Token Authorized')
+      res.status(400).send(obj);
     })
     .catch((bool) => {
       res.status(403).send('Not authorized');

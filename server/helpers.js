@@ -25,7 +25,13 @@ module.exports.checkPlayerExists = function(playerEmail) {
     });
 };
 
-
+/*
+Used to add new players to the application
+***Important****
+Players are automatically added to first season found in DB
+Also automatically added to every round in the db.
+Will be reomved once admin console is complete
+*/
 module.exports.addPlayer = function(player) {
   let tempPlayer = new Models.Player(player);
   return tempPlayer.hashPw(player.password)
@@ -66,6 +72,7 @@ module.exports.addPlayer = function(player) {
           })
       })
     })
+    //Then we assign a JWT to return back when player created successfully
     .then((player) => {
       let payload = {};
       let apiToken = jwt
@@ -113,7 +120,8 @@ module.exports.login = function(credentials) {
       payload.token = jwt
       .sign({
         isLoggedIn: true,
-        userId: player._id
+        userId: player._id,
+        player: player
         },
         'dgolf',
         {
